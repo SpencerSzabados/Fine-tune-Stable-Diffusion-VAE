@@ -1,5 +1,3 @@
-DATASET=$1
-NGPU=$2
 
 source ./args.sh $DATSET fives_L512_patches $NGPU 1
 

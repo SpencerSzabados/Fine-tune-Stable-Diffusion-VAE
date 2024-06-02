@@ -5,11 +5,8 @@
 # You should have received a copy of the license along with this
 # work. If not, see http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-import re
-import contextlib
 import numpy as np
 import torch
-import warnings
 #----------------------------------------------------------------------------
 # Cached construction of constant tensors. Avoids CPU=>GPU copy when the
 # same constant is used multiple times.

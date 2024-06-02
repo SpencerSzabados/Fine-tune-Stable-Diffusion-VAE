@@ -4,8 +4,6 @@
     All code for autoencoder, distributions, util, autoencoder_modeules is originally from (https://github.com/CompVis/stable-diffusion).
 """
 
-
-import time
 import os
 from pathlib import Path
 from glob import glob
@@ -20,7 +18,6 @@ import torch.distributed as dist
 from utils import dist_util
 import torchvision
 from torch.optim import RAdam
-import torch.backends.cudnn as cudnn
 
 from datasets.image_datasets import load_data
 from datasets.augment import AugmentPipe
@@ -198,7 +195,8 @@ class VAETrainLoop():
             x_hat = self.forward(batch, sample=False)
             sample_grid = th.cat([batch, x_hat], dim=0)
 
-            sample_dir = bf.join(logger.get_dir(), "samples")
+            # sample_dir = bf.join(logger.get_dir(), "samples")
+            sample_dir = "tmp_imgs"
             if dist.get_rank() == 0:
                 os.makedirs(sample_dir, exist_ok=True)
                 
@@ -263,7 +261,6 @@ class VAETrainLoop():
                 dist.barrier()
 
             if (self.save_interval != -1 and 
-                self.step > 0 and 
                 self.step % self.sample_interval == 0
             ):
                 self.traning_sample()
