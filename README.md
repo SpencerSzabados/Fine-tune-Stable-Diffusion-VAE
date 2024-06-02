@@ -6,7 +6,7 @@ This repository contains the implementation details for fine-tuning [Stable Diff
 This repository contains scripts for fine-tuning stable diffusions variational auto-encoder on custom image datasets. All the defaults are configured for training at a resolution of 512x512x3 but can be easily modified to support custom resolutions.
 
 ## Usege
-### hardware requirements 
+### Hardware requirements 
 Training requires a CUDA capable device. Fine-tuning on 512x512x3 images with a batch size of 8 and microbatches of 4 requires 42GB of (combined) VRAM and takes ~20mins to run 1000 steps on one NVIDIA L40s. 
 
 ### Environment setup 
