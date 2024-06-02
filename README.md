@@ -7,7 +7,7 @@ This repository contains scripts for fine-tuning stable diffusions variational a
 
 ## Usege
 ### Hardware requirements 
-Training requires a CUDA capable device. Fine-tuning on 512x512x3 images with a batch size of 8 and microbatches of 4 requires 42GB of (combined) VRAM and takes ~20mins to run 1000 steps on one NVIDIA L40s. 
+Training requires a CUDA capable device. Fine-tuning on 512x512x3 images with a batch size of 8 and microbatches of 4 requires 42GB of (combined) VRAM and takes ~20mins to run 1000 steps on one NVIDIA L40s. The VRAM usege can be approximately halved by removing the use of perceptual similarity loss [lpips](https://github.com/richzhang/PerceptualSimilarity) within 'fine-tune.py'.
 
 ### Environment setup 
 All python package requirements are listed within the 'requirements.yaml' file. To build the conda environment, named 'sdvae', run the following command:
