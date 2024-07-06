@@ -54,6 +54,7 @@ The given implementation(s) is loosely based on the github repository of [cccntu
 
 
 ## Citation
+```bibtex
 @misc{szabados:2024,
     author = {Szabados, Spencer},
     title = {Fine-tune Stable Diffusion VAE},
@@ -61,4 +62,4 @@ The given implementation(s) is loosely based on the github repository of [cccntu
     howpublished = {\url{https://spencerszabados.github.io/projects/2024-05-26-fine-tune-stable-diffusion-vae/}},
     url = {https://github.com/SpencerSzabados/Fine-tune-Stable-Diffusion-VAE},
 }
-
+```
