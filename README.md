@@ -55,7 +55,7 @@ The given implementation(s) is loosely based on the github repository of [cccntu
 
 ## Citation
 ```bibtex
-@misc{szabados:2024,
+@misc{Szabados:2024,
     author = {Szabados, Spencer},
     title = {Fine-tune Stable Diffusion VAE},
     year = {2024},
