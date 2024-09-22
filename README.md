@@ -6,8 +6,8 @@ This repository contains the implementation details for fine-tuning [Stable Diff
 This repository contains scripts for fine-tuning stable diffusions variational auto-encoder on custom image datasets. All the defaults are configured for training at a resolution of 512x512x3 but can be easily modified to support custom resolutions.
 
 ## Usege
-### hardware requirements 
-Training requires a CUDA capable device. Fine-tuning on 512x512x3 images with a batch size of 8 and microbatches of 4 requires 42GB of (combined) VRAM and takes ~20mins to run 1000 steps on one NVIDIA L40s. 
+### Hardware requirements 
+Training requires a CUDA capable device. Fine-tuning on 512x512x3 images with a batch size of 8 and microbatches of 4 requires 42GB of (combined) VRAM and takes ~20mins to run 1000 steps on one NVIDIA L40s. The VRAM usege can be approximately halved by removing the use of perceptual similarity loss [lpips](https://github.com/richzhang/PerceptualSimilarity) within 'fine-tune.py'.
 
 ### Environment setup 
 All python package requirements are listed within the 'requirements.yaml' file. To build the conda environment, named 'sdvae', run the following command:
@@ -54,11 +54,12 @@ The given implementation(s) is loosely based on the github repository of [cccntu
 
 
 ## Citation
-@misc{szabados:2024,
+```bibtex
+@misc{Szabados:2024,
     author = {Szabados, Spencer},
     title = {Fine-tune Stable Diffusion VAE},
     year = {2024},
     howpublished = {\url{https://spencerszabados.github.io/projects/2024-05-26-fine-tune-stable-diffusion-vae/}},
     url = {https://github.com/SpencerSzabados/Fine-tune-Stable-Diffusion-VAE},
 }
-
+```
