@@ -47,8 +47,8 @@ class VAETrainLoop():
         weight_decay=0.0,
         lr_anneal_steps=0,
         weight_l2=0.5,
+        weight_kl=0.001,
         weight_lpips=0.002,
-        weight_reg=0.001,
         fp16=False,
         log_interval=1000,
         sample_interval=1000,
@@ -74,8 +74,8 @@ class VAETrainLoop():
         self.ema_rate = ema_rate
         self.weight_decay = weight_decay
         self.weight_l2 = weight_l2
+        self.weight_kl = weight_kl
         self.weight_lpips = weight_lpips
-        self.weight_reg = weight_reg
         self.lr_anneal_steps = lr_anneal_steps
         self.total_training_steps = total_training_steps
         # Logging paramters 
@@ -170,14 +170,15 @@ class VAETrainLoop():
         return x
 
     def forward(self, x, sample=True):
+        latent_dist = self.encode(x).latent_dist
         if sample:
-            z = self.encode(x).latent_dist.sample()
+            z = latent_dist.sample()
         else:
-            z = self.encode(x).latent_dist.mode()
+            z = latent_dist.mode()
 
         x_hat = self.decode(z).sample
         
-        return x_hat
+        return x_hat, latent_dist
 
     def _get_sample(self, m, std):
         return randn_tensor(
@@ -192,7 +193,7 @@ class VAETrainLoop():
         with th.no_grad():
             batch, cond = next(self.data)
             batch = batch.to(dist_util.dev())
-            x_hat = self.forward(batch, sample=False)
+            x_hat, latent_dist = self.forward(batch, sample=False)
             sample_grid = th.cat([batch, x_hat], dim=0)
 
             # sample_dir = bf.join(logger.get_dir(), "samples")
@@ -207,12 +208,14 @@ class VAETrainLoop():
         assert self.model.encoder.training or self.model.decoder.training
 
         def _compute_losses(x):
-            x_hat = self.forward(x)
+            x_hat, latent_dist = self.forward(x)
             loss_l2 = self.loss_fn_l2(x,x_hat)
+            loss_kl = -0.5*th.sum(1 + latent_dist.logvar - latent_dist.mean.pow(2) - latent_dist.logvar.exp())
             loss_lpips = self.loss_fn_lpips(x,x_hat).mean()
             loss_terms = {
-                "loss": self.weight_l2*loss_l2 + self.weight_lpips*loss_lpips,
+                "loss": self.weight_l2*loss_l2 + self.weight_kl*loss_kl + self.weight_lpips*loss_lpips,
                 "loss_l2": loss_l2,
+                "loss_kl": loss_kl,
                 "loss_lpips": loss_lpips
             }
             loss = (
@@ -313,6 +316,7 @@ def create_argparser():
         weight_decay=0.0,
         lr_anneal_steps=0,
         weight_l2=0.5,
+        weight_kl=1e-6,
         weight_lpips=0.002,
         fp16=False,
         log_interval=50,
@@ -391,6 +395,7 @@ def main(args):
             ema_rate=args.ema_rate,
             weight_decay=args.weight_decay,
             weight_l2=args.weight_l2,
+            weight_kl=args.weight_kl,
             weight_lpips=args.weight_lpips,
             fp16=args.fp16,
             lr_anneal_steps=args.lr_anneal_steps,
