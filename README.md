@@ -1,6 +1,6 @@
 
 # Fine-tuning Stable Diffusions VAE
-This repository contains the implementation details for fine-tuning [Stable Diffusion's](https://github.com/CompVis/stable-diffusion) Variational Auto-Encoder, as outlined in my accompanying project post [Web](https://spencerszabados.github.io/projects/2024-05-26-fine-tune-stable-diffusion-vae/).
+This repository contains the implementation details for fine-tuning [Stable Diffusion's](https://github.com/CompVis/stable-diffusion) Variational Auto-Encoder, as outlined in my accompanying project post [Web](https://spencerszabados.github.io/blog/2024/fine-tune-stable-diffusion-vae/).
 
 ## Summary
 This repository contains scripts for fine-tuning stable diffusions variational auto-encoder on custom image datasets. All the defaults are configured for training at a resolution of 512x512x3 but can be easily modified to support custom resolutions.
